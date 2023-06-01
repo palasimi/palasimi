@@ -1,0 +1,65 @@
+:root {
+  --gray: gainsboro;
+  --z-index-search-box: 100;
+}
+
+.search-box {
+  /* Fix height to prevent the search box from expanding with the results. */
+  height: 2em;
+
+  /* Make search box fill up remaining space in flex parent. */
+  flex: 1;
+
+  /* Put the search box on top of the cytoscape container. */
+  z-index: var(--z-index-search-box);
+}
+
+.search-input {
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--gray);
+
+  display: flex;
+  align-items: center;
+}
+.search-input:focus-within {
+  outline: var(--outline);
+}
+.search-input input {
+  background-color: inherit;
+  border: none;
+
+  /* Make the input fill up any remaining space in its parent. */
+  flex: 1;
+}
+.search-input > input:focus {
+  outline: none;
+}
+
+.suggestions {
+  max-height: 500px;
+  overflow-y: auto;
+
+  background-color: white;
+
+  box-shadow: 0 1px 1px var(--gray);
+
+  /* Hide by default. */
+  display: none;
+}
+
+.suggestions:active, /* prevents the suggestions from disappearing on click */
+.search-box:focus-within > .suggestions {
+  /* show only when the search box is in focus */
+  display: block;
+}
+
+.suggestion {
+  /* Because `hyphens: auto` doesn't completely prevent overflows. */
+  word-break: break-all;
+  padding: var(--padding);
+}
+.suggestion.selected {
+  background-color: var(--gray);
+}

@@ -1,0 +1,60 @@
+{
+  "name": "palasimi",
+  "version": "1.0.0",
+  "description": "A collection of colexification graphs",
+  "main": "dist/index.js",
+  "scripts": {
+    "build-js": "esbuild --bundle src/index.ts src/worker.ts --outdir=dist --sourcemap --minify --external:'*.ttf'",
+    "build-public": "mkdir -p dist && cp -r public/* dist",
+    "build-templates": "node scripts/compile.js",
+    "build": "npm run build-public && npm run build-js && npm run build-templates",
+    "check": "npm run build && npm run format:check && npm run lint && npm run typecheck",
+    "format": "prettier -w .",
+    "format:check": "prettier -c .",
+    "lint": "eslint src",
+    "serve": "http-server dist --gzip -c 31536000",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typecheck": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palasimi/palasimi.git"
+  },
+  "keywords": [
+    "colexification",
+    "graphs",
+    "linguistics",
+    "networks",
+    "polysemy",
+    "semantic-maps",
+    "semantics"
+  ],
+  "author": "Levi Gruspe",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/palasimi/palasimi/issues"
+  },
+  "homepage": "https://github.com/palasimi/palasimi#readme",
+  "devDependencies": {
+    "@types/cytoscape": "^3.19.9",
+    "@types/cytoscape-fcose": "^2.2.0",
+    "@typescript-eslint/eslint-plugin": "^5.59.8",
+    "@typescript-eslint/parser": "^5.59.8",
+    "esbuild": "^0.17.18",
+    "eslint": "^8.41.0",
+    "http-server": "^14.1.1",
+    "nunjucks": "^3.2.4",
+    "prettier": "^2.8.8",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "cytoscape": "^3.24.0",
+    "cytoscape-fcose": "^2.2.0",
+    "fuse.js": "^6.6.2",
+    "graphology": "^0.25.1",
+    "graphology-components": "^1.5.4",
+    "graphology-operators": "^1.6.0",
+    "graphology-traversal": "^0.3.1",
+    "sanitize.css": "^13.0.0"
+  }
+}

@@ -1,0 +1,143 @@
+@import "sanitize.css";
+
+/* Variables */
+
+:root {
+  /* These variables may be overwritten by themes. */
+  --page-width: 800px;
+  --padding: 0.5rem;
+  --flex-gap: 1rem;
+  --outline: 2px solid black;
+
+  --color-a: #8d5524; /* Darkest */
+  --color-b: #c68642;
+  --color-c: #e0ac69;
+  --color-d: #f1c27d;
+  --color-e: #ffdbac; /* Lightest */
+}
+
+*:focus-visible {
+  outline: var(--outline);
+}
+
+body {
+  padding: var(--padding);
+}
+
+@media (max-width: 500px) {
+  /* Use this class to hide elements when the screen is too narrow. */
+  .concealable {
+    display: none;
+  }
+}
+
+/* Themes */
+
+/* TODO inline this declaration */
+@font-face {
+  font-family: "Merriweather";
+  src: url("/fonts/Merriweather/Merriweather-Regular.ttf");
+  font-display: swap;
+}
+
+.default-theme {
+  font-family: "Merriweather", serif;
+
+  /* Overwrite some variables */
+  --color-a: #8d5524; /* Darkest */
+  --color-b: #c68642;
+  --color-c: #e0ac69;
+  --color-d: #f1c27d;
+  --color-e: #ffdbac; /* Lightest */
+
+  --outline: 2px solid var(--color-a);
+}
+
+.default-theme a {
+  color: var(--color-a);
+  text-decoration: none;
+}
+.default-theme a:hover {
+  color: var(--color-b);
+}
+.default-theme a:active {
+  color: var(--color-c);
+}
+
+.default-theme .logo {
+  /* Logo has the same color as non-link text, even if the logo is a link. */
+  color: black;
+  font-size: 1.5rem;
+
+  /* Prevent word break. */
+  word-break: keep-all;
+}
+
+/* Block elements */
+
+.primary-nav {
+  max-width: var(--page-width);
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  gap: var(--flex-gap);
+}
+
+.article {
+  max-width: var(--page-width);
+  margin: 0 auto;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--flex-gap);
+}
+
+/* Inline elements */
+
+.icon {
+  /* Height is greater than 1em to compensate for padding. */
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 100%;
+
+  border: none;
+  background-color: inherit;
+
+  /* Makes horizontal and vertical padding even. */
+  padding: 2px;
+}
+.icon-button:hover .icon {
+  /* Produces var(--color-a) (#8d5524) */
+  filter: brightness(0) saturate(100%) invert(31%) sepia(89%) saturate(381%)
+    hue-rotate(346deg) brightness(96%) contrast(93%);
+}
+.icon-button:active .icon {
+  /* Produces var(--color-b) (#c68642) */
+  filter: brightness(0) saturate(100%) invert(55%) sepia(10%) saturate(2350%)
+    hue-rotate(350deg) brightness(102%) contrast(88%);
+}
+
+/* Cytoscape */
+#cytoscape-container {
+  /* Put the container below the nav bar. 3em is just an estimate. */
+  position: absolute;
+  top: 3em;
+  left: 0;
+
+  /* Subtract the estimated height of the navbar from the height of the viewport. */
+  height: calc(100vh - 3em);
+  width: 100vw;
+
+  /* Prevents unnecessary scrollbars on Chrome. */
+  overflow: hidden;
+}
