@@ -18,7 +18,8 @@ type Route = GraphRoute | PageRoute;
 // If the graph route leads to an invalid node ID, returns another random node
 // ID instead.
 export function getRoute(): Route {
-  if (!window.location.pathname.endsWith("graph")) {
+  const path = window.location.pathname.replace(/\.html$/, "");
+  if (!path.endsWith("graph")) {
     return { type: "page" };
   }
 
