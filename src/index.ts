@@ -40,6 +40,14 @@ function updateView() {
 }
 
 async function main() {
+  // Register service worker.
+  if ("serviceWorker" in navigator) {
+    // Doesn't run on Firefox in private browsing mode.
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/serviceWorker.js");
+    });
+  }
+
   // Initialize various elements.
   initLogo();
   initRandomButton();
