@@ -13,6 +13,7 @@
     "format:check": "prettier -c .",
     "lint": "eslint src",
     "serve": "http-server dist --gzip -c 31536000",
+    "serve:https": "http-server dist --gzip -c 31536000 --ssl",
     "test": "echo \"Error: no test specified\" && exit 1",
     "typecheck": "tsc"
   },
