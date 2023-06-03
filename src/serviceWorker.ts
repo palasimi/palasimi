@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (c) 2023 Levi Gruspe
 
-const cacheName = "palasimi-v1.0.2";
+const cacheName = "palasimi-v1.0.3";
 
 const assets = [
   "/",
