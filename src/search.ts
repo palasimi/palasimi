@@ -8,11 +8,9 @@ import { Node } from "./schema";
 
 type SearchFunction = (query: string) => Promise<Node[]>;
 
-function initSearchInput(
-  input: HTMLInputElement,
-  showSuggestions: (query: string) => void
-) {
-  input.addEventListener("input", () => showSuggestions(input.value));
+// Initialize input element.
+// Changes behavior of pressing enter and arrow keys.
+function initSearchInput(input: HTMLInputElement) {
   input.addEventListener("keydown", (event) => {
     switch (event.keyCode) {
       case 13:
@@ -213,13 +211,15 @@ export function initSearchBox(
     createSuggestionsDiv();
   box.append(suggestionsDiv);
 
-  const showSuggestions = (query: string) =>
-    search(query).then((results) => updateSuggestions(query, results));
-
   const inputDiv = box.querySelector(".search-input") as HTMLDivElement;
   const input = inputDiv.querySelector("input") as HTMLInputElement;
-  initSearchInput(input, showSuggestions);
+  initSearchInput(input);
 
+  box.addEventListener("input", async () => {
+    const query = input.value;
+    const results = await search(query);
+    updateSuggestions(query, results);
+  });
   box.addEventListener("palasimi-click-suggestion", (event) => {
     follow((event as CustomEvent).detail.data.id);
     input.value = "";
@@ -255,10 +255,11 @@ export function createSearchFunction(nodes: Node[]): SearchFunction {
     return (query: string) => Promise.resolve(searchFuse(fuse, query));
   }
 
-  // This path is absolute (not resolved by esbuild).
   let pending = "";
   let done = "";
   let result: Node[] = [];
+
+  // This path is not resolved by esbuild.
   const worker = new Worker("/worker.js");
   worker.onmessage = (event) => {
     done = event.data.query;
