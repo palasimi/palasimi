@@ -11,14 +11,14 @@ type Suggestion = {
 
 function createSuggestionTitle(title: string): HTMLDivElement {
   const div = document.createElement("div");
-  div.classList.add(".suggestion-title");
+  div.classList.add("suggestion-title");
   div.textContent = title;
   return div;
 }
 
 function createSuggestionBody(body: string): HTMLDivElement {
   const div = document.createElement("div");
-  div.classList.add(".suggestion-body");
+  div.classList.add("suggestion-body");
   div.textContent = body;
   return div;
 }
