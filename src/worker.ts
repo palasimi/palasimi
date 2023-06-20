@@ -15,22 +15,19 @@
 // });
 // ```
 
-import { createFuse, searchFuse } from "./fuse";
-import { Node } from "./schema";
+import { WordSenseSearcher } from "./word_sense_searcher";
 
-import Fuse from "fuse.js";
-
-let fuse: Fuse<Node> | null = null;
+let searcher: WordSenseSearcher | null = null;
 
 onmessage = (event) => {
   switch (event.data.name) {
     case "index":
-      fuse = createFuse(event.data.value);
+      searcher = new WordSenseSearcher(event.data.value);
       break;
     case "search":
       postMessage({
         query: event.data.value,
-        results: fuse ? searchFuse(fuse, event.data.value) : [],
+        results: searcher?.search(event.data.value) || [],
       });
       break;
     default:

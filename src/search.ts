@@ -3,8 +3,8 @@
 
 import "./search.css";
 
-import { createFuse, searchFuse } from "./fuse";
 import { Node } from "./schema";
+import { WordSenseSearcher } from "./word_sense_searcher";
 
 type SearchFunction = (query: string) => Promise<Node[]>;
 
@@ -251,8 +251,8 @@ export function initSearchBox(
 export function createSearchFunction(nodes: Node[]): SearchFunction {
   if (!window.Worker) {
     // Fallback
-    const fuse = createFuse(nodes);
-    return (query: string) => Promise.resolve(searchFuse(fuse, query));
+    const searcher = new WordSenseSearcher(nodes);
+    return (query: string) => Promise.resolve(searcher.search(query));
   }
 
   let pending = "";
