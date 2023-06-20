@@ -22,11 +22,6 @@ function fixHistoryState(nodeID: string) {
   document.title = `${word} | ${sense}`;
 }
 
-// Go to graph page.
-function goto(nodeID: string) {
-  window.location.href = `/graph#/${nodeID}`;
-}
-
 // Updates current page if needed.
 function updateView() {
   const route = getRoute();
@@ -69,7 +64,7 @@ async function main() {
   // Initialize search bar.
   const search = createSearchFunction(data.elements.nodes);
   const box = document.getElementById("placeholder-search-box") as Element;
-  initSearchBox(box, search, goto);
+  initSearchBox(box, search);
 
   // Render current page.
   updateView();
@@ -88,7 +83,7 @@ function initRandomButton() {
   const button = document.getElementById("random");
   button?.addEventListener("click", () => {
     const id = choose(window.graph.nodes());
-    goto(id);
+    window.location.href = `/graph#/${id}`;
   });
 }
 

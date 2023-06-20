@@ -45,23 +45,14 @@ function createDumbSearchBox(): HTMLDivElement {
   return div;
 }
 
-// `follow`: See `createSuggestionsDiv`.
-export function createSearchBox(
-  search: SearchFunction,
-  follow: (id: string) => void
-): HTMLDivElement {
+export function createSearchBox(search: SearchFunction): HTMLDivElement {
   const box = createDumbSearchBox();
-  initSearchBox(box, search, follow);
+  initSearchBox(box, search);
   return box;
 }
 
 // Initializes HTML-defined search box.
-// `follow`: see `createSuggestionsDiv`.
-export function initSearchBox(
-  box: Element,
-  search: SearchFunction,
-  follow: (id: string) => void
-) {
+export function initSearchBox(box: Element, search: SearchFunction) {
   const [suggestionsDiv, updateSuggestions, down, up, enter] =
     createSuggestionsDiv();
   box.append(suggestionsDiv);
@@ -73,11 +64,14 @@ export function initSearchBox(
   box.addEventListener("input", async () => {
     const query = input.value;
     const results = await search(query);
-    updateSuggestions(query, results);
-  });
-  box.addEventListener("palasimi-click-suggestion", (event) => {
-    follow((event as CustomEvent).detail.data.id);
-    input.value = "";
+    const suggestions = results.map((result) => {
+      return {
+        title: result.data.word,
+        body: result.data.sense,
+        url: `/graph#/${result.data.id}`,
+      };
+    });
+    updateSuggestions(query, suggestions);
   });
   box.addEventListener("keydown", (event) => {
     switch ((event as KeyboardEvent).keyCode) {

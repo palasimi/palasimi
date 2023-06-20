@@ -1,25 +1,41 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (c) 2023 Levi Gruspe
 
-import { GraphNode } from "./schema";
+import "./suggestions.css";
 
-function createSuggestion(
-  node: GraphNode,
-  onClick: () => void
-): HTMLDivElement {
-  const { word, sense } = node.data;
+type Suggestion = {
+  title: string; // Short title.
+  body: string; // Suggestion text.
+  url: string; // URL to follow.
+};
 
-  const wordDiv = document.createElement("div");
-  wordDiv.style.fontWeight = "bold";
-  wordDiv.textContent = word;
+function createSuggestionTitle(title: string): HTMLDivElement {
+  const div = document.createElement("div");
+  div.classList.add(".suggestion-title");
+  div.textContent = title;
+  return div;
+}
 
-  const senseDiv = document.createElement("div");
-  senseDiv.textContent = sense;
+function createSuggestionBody(body: string): HTMLDivElement {
+  const div = document.createElement("div");
+  div.classList.add(".suggestion-body");
+  div.textContent = body;
+  return div;
+}
 
+// Creates an entry in a list of suggestions.
+// The resulting div emits a `palasimi-select-suggestion` custom event when
+// the mouse enters its box.
+// Clicking on the div brings user to `suggestion.url`.
+function createSuggestion(suggestion: Suggestion): HTMLDivElement {
   const div = document.createElement("div");
   div.classList.add("suggestion");
-  div.append(wordDiv, senseDiv);
-  div.addEventListener("click", onClick);
+  div.appendChild(createSuggestionTitle(suggestion.title));
+  div.appendChild(createSuggestionBody(suggestion.body));
+
+  div.addEventListener("click", () => {
+    window.location.href = suggestion.url;
+  });
   div.addEventListener("mouseenter", () => {
     const event = new CustomEvent("palasimi-select-suggestion", {
       bubbles: true,
@@ -41,7 +57,7 @@ function createNoSuggestionsFound(): HTMLDivElement {
 // into the div.
 export function createSuggestionsDiv(): [
   HTMLDivElement,
-  (query: string, results: GraphNode[]) => void, // update function
+  (query: string, results: Suggestion[]) => void, // update function
   () => void, // press down
   () => void, // press up
   () => void // press enter
@@ -49,7 +65,7 @@ export function createSuggestionsDiv(): [
   const div = document.createElement("div");
   div.classList.add("suggestions");
 
-  const update = (query: string, results: GraphNode[]) => {
+  const update = (query: string, results: Suggestion[]) => {
     if (query.length === 0) {
       div.replaceChildren();
       return;
@@ -60,16 +76,7 @@ export function createSuggestionsDiv(): [
     }
 
     // Only take first 200 results for performance reasons.
-    const children = results.slice(0, 200).map((result) =>
-      createSuggestion(result, () => {
-        const event = new CustomEvent("palasimi-click-suggestion", {
-          bubbles: true,
-          detail: result,
-        });
-        div.dispatchEvent(event);
-        div.replaceChildren();
-      })
-    );
+    const children = results.slice(0, 200).map(createSuggestion);
 
     // Select first suggestion by default.
     children[0].classList.add("selected");
@@ -137,11 +144,17 @@ export function createSuggestionsDiv(): [
   };
 
   const enter = () => {
-    const selected = getSelected();
+    const selected = getSelected() as HTMLElement | null;
     if (selected == null) {
       return;
     }
-    (selected as HTMLElement).click();
+    selected.click();
+
+    // Blur the search input to hide the search results.
+    const active = document.activeElement;
+    if (active instanceof HTMLInputElement) {
+      active.blur();
+    }
   };
 
   div.addEventListener("palasimi-select-suggestion", (event) => {
