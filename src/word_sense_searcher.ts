@@ -4,7 +4,7 @@
 // WordSense searcher.
 
 import { Searcher } from "./fuse";
-import { Node as GraphNode } from "./schema";
+import { GraphNode } from "./schema";
 
 // Used to search for word senses fuzzily.
 export class WordSenseSearcher extends Searcher<GraphNode> {

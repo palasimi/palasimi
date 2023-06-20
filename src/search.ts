@@ -3,10 +3,10 @@
 
 import "./search.css";
 
-import { Node } from "./schema";
+import { GraphNode } from "./schema";
 import { WordSenseSearcher } from "./word_sense_searcher";
 
-type SearchFunction = (query: string) => Promise<Node[]>;
+type SearchFunction = (query: string) => Promise<GraphNode[]>;
 
 // Initialize input element.
 // Changes behavior of pressing enter and arrow keys.
@@ -30,7 +30,10 @@ function initSearchInput(input: HTMLInputElement) {
   });
 }
 
-function createSuggestion(node: Node, onClick: () => void): HTMLDivElement {
+function createSuggestion(
+  node: GraphNode,
+  onClick: () => void
+): HTMLDivElement {
   const { word, sense } = node.data;
 
   const wordDiv = document.createElement("div");
@@ -65,7 +68,7 @@ function createNoSuggestionsFound(): HTMLDivElement {
 // into the div.
 function createSuggestionsDiv(): [
   HTMLDivElement,
-  (query: string, results: Node[]) => void, // update function
+  (query: string, results: GraphNode[]) => void, // update function
   () => void, // press down
   () => void, // press up
   () => void // press enter
@@ -73,7 +76,7 @@ function createSuggestionsDiv(): [
   const div = document.createElement("div");
   div.classList.add("suggestions");
 
-  const update = (query: string, results: Node[]) => {
+  const update = (query: string, results: GraphNode[]) => {
     if (query.length === 0) {
       div.replaceChildren();
       return;
@@ -248,7 +251,7 @@ export function initSearchBox(
 // The return value is a search function.
 // This function can be slow, too, so it should also be run inside a web
 // worker.
-export function createSearchFunction(nodes: Node[]): SearchFunction {
+export function createSearchFunction(nodes: GraphNode[]): SearchFunction {
   if (!window.Worker) {
     // Fallback
     const searcher = new WordSenseSearcher(nodes);
@@ -257,7 +260,7 @@ export function createSearchFunction(nodes: Node[]): SearchFunction {
 
   let pending = "";
   let done = "";
-  let result: Node[] = [];
+  let result: GraphNode[] = [];
 
   // This path is not resolved by esbuild.
   const worker = new Worker("/worker.js");

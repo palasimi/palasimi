@@ -3,7 +3,7 @@
 
 // Type definitions for JSON objects from the server.
 
-export type Node = {
+export type GraphNode = {
   data: {
     id: string; // Actually a number, but gets turned into a string.
     word: string;
@@ -11,7 +11,7 @@ export type Node = {
   };
 };
 
-export type Edge = {
+export type GraphEdge = {
   data: {
     source: string;
     target: string;
@@ -22,7 +22,7 @@ export type Edge = {
 // data/graph.json
 export type GraphSchema = {
   elements: {
-    nodes: Node[];
-    edges: Edge[];
+    nodes: GraphNode[];
+    edges: GraphEdge[];
   };
 };
