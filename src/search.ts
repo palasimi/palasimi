@@ -3,7 +3,11 @@
 
 import "./search.css";
 
-import { createSuggestionsDiv, Suggestion } from "./suggestions";
+import {
+  createSuggestionsDiv,
+  FollowFunction,
+  Suggestion,
+} from "./suggestions";
 
 export type SearchFunction = (query: string) => Promise<Suggestion[]>;
 
@@ -43,16 +47,25 @@ function createDumbSearchBox(): HTMLDivElement {
   return div;
 }
 
-export function createSearchBox(search: SearchFunction): HTMLDivElement {
+export function createSearchBox(
+  search: SearchFunction,
+  follow?: FollowFunction
+): HTMLDivElement {
   const box = createDumbSearchBox();
-  initSearchBox(box, search);
+  initSearchBox(box, search, follow);
   return box;
 }
 
 // Initializes HTML-defined search box.
-export function initSearchBox(box: Element, search: SearchFunction) {
+// Takes an optional follow function, which tells what to do when the user
+// clicks on a search result.
+export function initSearchBox(
+  box: Element,
+  search: SearchFunction,
+  follow?: FollowFunction
+) {
   const [suggestionsDiv, updateSuggestions, down, up, enter] =
-    createSuggestionsDiv();
+    createSuggestionsDiv(follow);
   box.append(suggestionsDiv);
 
   const inputDiv = box.querySelector(".search-input") as HTMLDivElement;
