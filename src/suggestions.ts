@@ -9,6 +9,9 @@ export type Suggestion = {
   url: string; // URL to follow.
 };
 
+// Action after clicking on a suggestion.
+export type FollowFunction = (suggestion: Suggestion) => void;
+
 function createSuggestionTitle(title: string): HTMLDivElement {
   const div = document.createElement("div");
   div.classList.add("suggestion-title");
@@ -23,19 +26,27 @@ function createSuggestionBody(body: string): HTMLDivElement {
   return div;
 }
 
+// Default follow function.
+function defaultFollow(suggestion: Suggestion) {
+  window.location.href = suggestion.url;
+}
+
 // Creates an entry in a list of suggestions.
 // The resulting div emits a `palasimi-select-suggestion` custom event when
 // the mouse enters its box.
 // Clicking on the div brings user to `suggestion.url`.
-function createSuggestion(suggestion: Suggestion): HTMLDivElement {
+// Takes an optional `follow` function that overrides the default behavior
+// when the user clicks on the div.
+function createSuggestion(
+  suggestion: Suggestion,
+  follow: FollowFunction = defaultFollow
+): HTMLDivElement {
   const div = document.createElement("div");
   div.classList.add("suggestion");
   div.appendChild(createSuggestionTitle(suggestion.title));
   div.appendChild(createSuggestionBody(suggestion.body));
 
-  div.addEventListener("click", () => {
-    window.location.href = suggestion.url;
-  });
+  div.addEventListener("click", () => follow(suggestion));
   div.addEventListener("mouseenter", () => {
     const event = new CustomEvent("palasimi-select-suggestion", {
       bubbles: true,
@@ -55,7 +66,9 @@ function createNoSuggestionsFound(): HTMLDivElement {
 
 // Returns a div element and an update function for inserting search results
 // into the div.
-export function createSuggestionsDiv(): [
+// Takes an optional follow function, which tells what to do when the user
+// clicks on a suggestion.
+export function createSuggestionsDiv(follow: FollowFunction = defaultFollow): [
   HTMLDivElement,
   (query: string, results: Suggestion[]) => void, // update function
   () => void, // press down
@@ -76,7 +89,9 @@ export function createSuggestionsDiv(): [
     }
 
     // Only take first 200 results for performance reasons.
-    const children = results.slice(0, 200).map(createSuggestion);
+    const children = results
+      .slice(0, 200)
+      .map((result) => createSuggestion(result, follow));
 
     // Select first suggestion by default.
     children[0].classList.add("selected");
