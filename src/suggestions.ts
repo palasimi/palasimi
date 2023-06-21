@@ -3,7 +3,7 @@
 
 import "./suggestions.css";
 
-type Suggestion = {
+export type Suggestion = {
   title: string; // Short title.
   body: string; // Suggestion text.
   url: string; // URL to follow.

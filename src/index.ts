@@ -8,9 +8,10 @@ import { choose } from "./random";
 import { fetchJSON } from "./requests";
 import { getRoute } from "./router";
 import { GraphSchema } from "./schema";
-import { createSearchFunction, initSearchBox } from "./search";
+import { initSearchBox } from "./search";
 import { slug, WordSense } from "./slug";
 import { initSubgraph } from "./subgraph";
+import { createSearchFunction } from "./word_sense_searcher";
 
 // Fixes URL hash and document title.
 function fixHistoryState(nodeID: string) {

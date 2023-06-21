@@ -3,11 +3,9 @@
 
 import "./search.css";
 
-import { GraphNode } from "./schema";
-import { createSuggestionsDiv } from "./suggestions";
-import { WordSenseSearcher } from "./word_sense_searcher";
+import { createSuggestionsDiv, Suggestion } from "./suggestions";
 
-type SearchFunction = (query: string) => Promise<GraphNode[]>;
+export type SearchFunction = (query: string) => Promise<Suggestion[]>;
 
 // Initialize input element.
 // Changes behavior of pressing enter and arrow keys.
@@ -64,14 +62,7 @@ export function initSearchBox(box: Element, search: SearchFunction) {
   box.addEventListener("input", async () => {
     const query = input.value;
     const results = await search(query);
-    const suggestions = results.map((result) => {
-      return {
-        title: result.data.word,
-        body: result.data.sense,
-        url: `/graph#/${result.data.id}`,
-      };
-    });
-    updateSuggestions(query, suggestions);
+    updateSuggestions(query, results);
   });
   box.addEventListener("keydown", (event) => {
     switch ((event as KeyboardEvent).keyCode) {
@@ -88,43 +79,4 @@ export function initSearchBox(box: Element, search: SearchFunction) {
         break;
     }
   });
-}
-
-/// Search logic
-
-// Creates a search function.
-// This function is blocking, so it's best to run this inside a web worker.
-// The return value is a search function.
-// This function can be slow, too, so it should also be run inside a web
-// worker.
-export function createSearchFunction(nodes: GraphNode[]): SearchFunction {
-  if (!window.Worker) {
-    // Fallback
-    const searcher = new WordSenseSearcher(nodes);
-    return (query: string) => Promise.resolve(searcher.search(query));
-  }
-
-  let pending = "";
-  let done = "";
-  let result: GraphNode[] = [];
-
-  // This path is not resolved by esbuild.
-  const worker = new Worker("/worker.js");
-  worker.onmessage = (event) => {
-    done = event.data.query;
-    result = event.data.results;
-  };
-
-  worker.postMessage({ name: "index", value: nodes });
-
-  return async (query: string) => {
-    pending = query;
-    worker.postMessage({ name: "search", value: query });
-
-    while (query === pending && query !== done) {
-      // Wait a few ms if not yet done.
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
-    return result;
-  };
 }
