@@ -1,6 +1,6 @@
 {
   "name": "palasimi",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A collection of colexification graphs",
   "main": "dist/index.js",
   "scripts": {

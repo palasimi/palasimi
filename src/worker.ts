@@ -15,7 +15,7 @@
 // });
 // ```
 
-import { WordSenseSearcher } from "./word_sense_searcher";
+import { WordSenseSearcher } from "./wordSenseSearcher";
 
 let searcher: WordSenseSearcher | null = null;
 

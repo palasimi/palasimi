@@ -11,7 +11,7 @@ import { GraphSchema } from "./schema";
 import { initSearchBox } from "./search";
 import { slug, WordSense } from "./slug";
 import { initSubgraph } from "./subgraph";
-import { createSearchFunction } from "./word_sense_searcher";
+import { createSearchFunction } from "./wordSenseSearcher";
 
 // Fixes URL hash and document title.
 function fixHistoryState(nodeID: string) {
