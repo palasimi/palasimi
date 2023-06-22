@@ -12,6 +12,11 @@
 
   /* Put the search box on top of the cytoscape container. */
   z-index: var(--z-index-search-box);
+
+  /* z-index only works if the element is positioned:
+   * https://developer.mozilla.org/en-US/docs/Web/CSS/z-index
+   */
+  position: relative;
 }
 
 .search-input {
