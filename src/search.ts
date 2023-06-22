@@ -35,23 +35,34 @@ function initSearchInput(input: HTMLInputElement) {
 
 // Creates a search box without event listeners.
 // This should be consistent with HTML in `templates/_header.html`.
-function createDumbSearchBox(): HTMLDivElement {
+function createDumbSearchBox(placeholder = "Search concepts"): HTMLDivElement {
   const div = document.createElement("div");
   div.classList.add("search-box");
   div.innerHTML = `
 		<div class="search-input">
-			<input placeholder="Search concepts" autocapitalize="none">
+			<input autocapitalize="none">
 		</div>
 	`;
+
+  const input = div.querySelector("input") as HTMLInputElement;
+  input.placeholder = placeholder;
   return div;
 }
 
+export type SearchBoxOptions = {
+  // Tells what to do when the user clicks on a search result.
+  follow?: FollowFunction;
+
+  // Input element placeholder text.
+  placeholder?: string;
+};
+
 export function createSearchBox(
   search: SearchFunction,
-  follow?: FollowFunction
+  options: SearchBoxOptions = {}
 ): HTMLDivElement {
-  const box = createDumbSearchBox();
-  initSearchBox(box, search, follow);
+  const box = createDumbSearchBox(options.placeholder);
+  initSearchBox(box, search, options.follow);
   return box;
 }
 
