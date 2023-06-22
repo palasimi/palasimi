@@ -15,8 +15,6 @@ const assets = [
   "/data/graph.json",
 
   "/fonts/Merriweather/Merriweather-Regular.ttf",
-  "/icons/phosphor2/dice-five.svg",
-  "/icons/phosphor2/magnifying-glass.svg",
 
   "/index.css",
   "/index.js",

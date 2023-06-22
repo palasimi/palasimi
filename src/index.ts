@@ -4,7 +4,6 @@
 import "./index.css";
 
 import { init as initGraph, show as followNode } from "./graph";
-import { choose } from "./random";
 import { fetchJSON } from "./requests";
 import { getRoute } from "./router";
 import { GraphSchema } from "./schema";
@@ -46,7 +45,6 @@ async function main() {
 
   // Initialize various elements.
   initLogo();
-  initRandomButton();
 
   // Render new graph whenever the URL hash changes.
   window.addEventListener("hashchange", updateView);
@@ -77,14 +75,6 @@ function initLogo() {
   logo?.addEventListener("copy", (event: Event) => {
     (event as ClipboardEvent).clipboardData?.setData("text/plain", "palasimi");
     event.preventDefault();
-  });
-}
-
-function initRandomButton() {
-  const button = document.getElementById("random");
-  button?.addEventListener("click", () => {
-    const id = choose(window.graph.nodes());
-    window.location.href = `/graph#/${id}`;
   });
 }
 

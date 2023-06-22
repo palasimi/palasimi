@@ -40,8 +40,7 @@ function createDumbSearchBox(): HTMLDivElement {
   div.classList.add("search-box");
   div.innerHTML = `
 		<div class="search-input">
-			<img class="icon" src="icons/phosphor2/magnifying-glass.svg">
-			<input placeholder="Search colexification graphs" autocapitalize="none">
+			<input placeholder="Search concepts" autocapitalize="none">
 		</div>
 	`;
   return div;

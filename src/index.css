@@ -14,10 +14,16 @@
   --color-c: #e0ac69;
   --color-d: #f1c27d;
   --color-e: #ffdbac; /* Lightest */
+
+  --font-size: 15px;
 }
 
 *:focus-visible {
   outline: var(--outline);
+}
+
+html {
+  font-size: var(--font-size);
 }
 
 body {
