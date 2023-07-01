@@ -3,10 +3,9 @@
 
 // WordSense searcher.
 
-import { Searcher } from "./fuse";
+import { Searcher, SearchFunction, Suggestion } from "@palasimi/search";
+
 import { GraphNode } from "./schema";
-import { SearchFunction } from "./search";
-import { Suggestion } from "./suggestions";
 
 // Used to search for word senses fuzzily.
 export class WordSenseSearcher extends Searcher<GraphNode> {

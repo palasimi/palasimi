@@ -3,11 +3,12 @@
 
 import "./index.css";
 
+import { initSearchBox } from "@palasimi/search";
+
 import { init as initGraph, show as followNode } from "./graph";
 import { fetchJSON } from "./requests";
 import { getRoute } from "./router";
 import { GraphSchema } from "./schema";
-import { initSearchBox } from "./search";
 import { slug, WordSense } from "./slug";
 import { initSubgraph } from "./subgraph";
 import { createSearchFunction } from "./wordSenseSearcher";
