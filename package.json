@@ -50,7 +50,7 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@palasimi/search": "^1.0.0",
+    "@palasimi/search": "^1.1.0",
     "cytoscape": "^3.24.0",
     "cytoscape-fcose": "^2.2.0",
     "graphology": "^0.25.1",

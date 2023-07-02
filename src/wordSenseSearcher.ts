@@ -9,7 +9,7 @@ import { GraphNode } from "./schema";
 
 // Used to search for word senses fuzzily.
 export class WordSenseSearcher extends Searcher<GraphNode> {
-  constructor(docs: GraphNode[]) {
+  constructor(docs: GraphNode[] = []) {
     const keys = [
       {
         name: "data.word",
@@ -20,7 +20,7 @@ export class WordSenseSearcher extends Searcher<GraphNode> {
         weight: 1,
       },
     ];
-    super(docs, keys);
+    super(keys, docs);
   }
 }
 
