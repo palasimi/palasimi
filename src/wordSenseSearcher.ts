@@ -4,6 +4,7 @@
 // WordSense searcher.
 
 import { Searcher, SearchFunction, Suggestion } from "@palasimi/search";
+import { initClient } from "@palasimi/workers";
 
 import { GraphNode } from "./schema";
 
@@ -49,27 +50,15 @@ export function createSearchFunction(nodes: GraphNode[]): SearchFunction {
     };
   }
 
-  let pending = "";
-  let done = "";
-  let result: GraphNode[] = [];
-
   // This path is not resolved by esbuild.
   const worker = new Worker("/worker.js");
-  worker.onmessage = (event) => {
-    done = event.data.query;
-    result = event.data.results;
-  };
+  const call = initClient(worker);
 
-  worker.postMessage({ name: "index", value: nodes });
+  call({ name: "index", value: nodes }).then();
 
   return async (query: string) => {
-    pending = query;
-    worker.postMessage({ name: "search", value: query });
-
-    while (query === pending && query !== done) {
-      // Wait a few ms if not yet done.
-      await new Promise((resolve) => setTimeout(resolve, 50));
-    }
-    return result.map(toSuggestion);
+    const response = await call({ name: "search", value: query });
+    const results = response.value as GraphNode[];
+    return results.map(toSuggestion);
   };
 }

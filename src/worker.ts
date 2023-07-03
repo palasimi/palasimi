@@ -1,21 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (c) 2023 Levi Gruspe
 
-// Usage:
-// ```
-// const worker = new Worker("/worker.js");
-// worker.postMessage({
-// 	name: "index",
-// 	value: nodes,
-// });
-//
-// worker.postMessage({
-//  name: "search",
-//  value: query,
-// });
-// ```
+import { initServer } from "@palasimi/workers";
 
-import { initWorker } from "@palasimi/search";
+import { GraphNode } from "./schema";
 import { WordSenseSearcher } from "./wordSenseSearcher";
 
-initWorker(new WordSenseSearcher());
+const searcher = new WordSenseSearcher();
+
+initServer({
+  index: (docs) => searcher.index(docs as GraphNode[]),
+  search: (query) => searcher.search(query as string),
+});

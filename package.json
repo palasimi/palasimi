@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@palasimi/search": "^1.2.0",
+    "@palasimi/workers": "^1.0.0",
     "cytoscape": "^3.24.0",
     "cytoscape-fcose": "^2.2.0",
     "graphology": "^0.25.1",
