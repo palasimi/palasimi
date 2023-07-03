@@ -14,11 +14,11 @@ From Spanish _palabra_ ("word") and _similar_ ("similar").
 
 ## Data
 
-You can download the graphs from [GitHub](https://github.com/palasimi/colexification-graphs/releases).
-These are made available under the [Creative Commons Attribution-ShareAlike License](https://creativecommons.org/licenses/by-sa/3.0/).
-
-All the data is derived from Wiktionary.
+All the data used by the website is derived from Wiktionary.
 The copyright of the original work belongs to Wiktionary's editors and contributors.
+
+You can download the graphs from [GitHub](https://github.com/palasimi/colexification-graphs/releases).
+They are made available under the [Creative Commons Attribution-ShareAlike License](https://creativecommons.org/licenses/by-sa/3.0/).
 
 ## Similar projects
 
