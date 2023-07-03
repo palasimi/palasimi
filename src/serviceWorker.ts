@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (c) 2023 Levi Gruspe
 
-const cacheName = "palasimi-v1.0.6";
+import { version } from "../package.json";
+
+const cacheName = `palasimi-v${version}`;
 
 const assets = [
   "/",
