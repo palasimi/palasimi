@@ -45,6 +45,7 @@
     "esbuild": "^0.17.18",
     "eslint": "^8.41.0",
     "http-server": "^14.1.1",
+    "marked": "^5.1.0",
     "nunjucks": "^3.2.4",
     "prettier": "^2.8.8",
     "typescript": "^5.0.4"
