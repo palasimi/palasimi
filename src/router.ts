@@ -38,12 +38,11 @@ export function getRoute(): Route {
     index = hash.length;
   }
 
-  const prefix = hash.slice(0, index);
-  const id = Number(prefix);
-  if (prefix.length > 0 && !isNaN(id) && window.graph.hasNode(id)) {
+  const id = hash.slice(0, index);
+  if (id.length > 0 && window.graph.hasNode(id)) {
     return {
       type: "graph",
-      value: prefix,
+      value: id,
     };
   }
 

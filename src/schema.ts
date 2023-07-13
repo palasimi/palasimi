@@ -5,7 +5,7 @@
 
 export type GraphNode = {
   data: {
-    id: string; // Actually a number, but gets turned into a string.
+    id: string; // Not a number.
     word: string;
     sense: string;
   };
