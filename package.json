@@ -1,6 +1,6 @@
 {
   "name": "palasimi",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A collection of colexification graphs",
   "main": "dist/index.js",
   "scripts": {
@@ -51,8 +51,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@palasimi/search": "^1.3.0",
-    "@palasimi/workers": "^1.0.0",
+    "@palasimi/search": "^1.3.3",
+    "@palasimi/workers": "^1.0.1",
     "cytoscape": "^3.24.0",
     "cytoscape-fcose": "^2.2.0",
     "graphology": "^0.25.1",
